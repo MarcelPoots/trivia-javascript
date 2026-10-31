@@ -54,6 +54,19 @@ async function fetchTrivia() {
             if (selectedOption) {
                 const isCorrect = selectedOption.value === data.results[0].correct_answer;
                 document.getElementById("trivia-result").textContent = isCorrect ? "Correct!" : "Incorrect! The correct answer is " + decodeHtml(data.results[0].correct_answer)    ;
+                //if the answer is correct, change the background color of the trivia-result div to green, if incorrect change it to red
+                //document.getElementById("trivia-result").style.backgroundColor = isCorrect ? "green" : "red";
+
+                //if the answer is incorrect, make the correct answer have green background color and the incorrect answer have red background color
+                if (!isCorrect) {
+                    const correctAnswer = data.results[0].correct_answer;
+                    const correctOption = Array.from(document.querySelectorAll('input[name="trivia-answer"]')).find(option => option.value === correctAnswer);
+                    if (correctOption) {
+                        correctOption.parentElement.style.backgroundColor = "green";
+                    }
+                    selectedOption.parentElement.style.backgroundColor = "red";
+                }
+
             } else {
                 document.getElementById("trivia-result").textContent = "Please select an answer.";
             }
